@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      max-width: 300px;
+      margin: auto;
+      background-color: #fafafa;
+      color: #000000;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 5px;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      background-color: #fff;
+    }
+
+    input:focus, select:focus {
+      border-color: #4a90e2;
+      outline: none;
+      background-color: #dbdbdb;
+    }
+
+    button {
+      display: block;
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background-color: #2763a8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #357abd;
+    }
+
+    .borda-erro {
+      border: solid 2px red;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      white-space: pre-wrap;
+    }
+
+    .opcao {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 5px;
+      font-weight: normal;
+    }
+
+    .opcao input {
+      width: auto;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Formulário</h1>
+  <h2>Cadastro do Usuário</h2>
+
+  <form id="usuario-form">
+    <div>
+      <label for="nome">Nome</label>
+      <input type="text" name="nome" id="nome" placeholder="Digite o seu nome" required maxlength="50">
+    </div>
+
+    <div>
+      <label for="email">E-mail</label>
+      <input type="email" name="email" id="email" placeholder="Digite o seu email" required maxlength="50">
+    </div>
+
+    <div>
+      <label for="senha">Senha</label>
+      <input type="password" name="senha" id="senha" placeholder="Digite a sua senha" required minlength="6" maxlength="50">
+    </div>
+
+    <div>
+      <label for="confirmasenha">Confirmar Senha</label>
+      <input type="password" name="confirmasenha" id="confirmasenha" placeholder="Confirmar Senha" required minlength="6" maxlength="50">
+    </div>
+
+    <div>
+      <label for="idade">Idade</label>
+      <input type="number" name="idade" id="idade" min="1" max="120" required>
+    </div>
+
+    <div>
+      <label for="nascimento">Data de Nascimento</label>
+      <input type="date" name="nascimento" id="nascimento" required>
+    </div>
+
+    <div>
+      <p>Gênero</p>
+      <label class="opcao"><input type="radio" name="genero" value="Masculino" required> Masculino</label>
+      <label class="opcao"><input type="radio" name="genero" value="Feminino"> Feminino</label>
+    </div>
+
+    <div>
+      <p>Interesses</p>
+      <label class="opcao"><input type="checkbox" name="interesses" value="Tecnologia"> Tecnologia</label>
+      <label class="opcao"><input type="checkbox" name="interesses" value="Esportes"> Esportes</label>
+      <label class="opcao"><input type="checkbox" name="interesses" value="Música"> Música</label>
+    </div>
+
+    <div>
+      <label for="pais">País</label>
+      <select name="pais" id="pais" required>
+        <option value="">Selecione...</option>
+        <option value="Brasil">Brasil</option>
+        <option value="Portugal">Portugal</option>
+        <option value="EUA">EUA</option>
+      </select>
+    </div>
+
+    <div>
+      <button type="button" onclick="enviarform()">Enviar</button>
+    </div>
+  </form>
+
+  <div class="resultado" id="resultado"></div>
+
+  <script>
+    function enviarform() {
+      let senha = document.getElementById('senha').value;
+      let confirmasenha = document.getElementById('confirmasenha').value;
+
+      if (senha !== confirmasenha) {
+        alert("As senhas não são iguais!");
+        return;
+      }
+
+      const form = document.getElementById("usuario-form");
+      const dados = {};
+      const formData = new FormData(form);
+
+      formData.forEach((value, key) => {
+        if (dados[key]) {
+          if (!Array.isArray(dados[key])) {
+            dados[key] = [dados[key]];
+          }
+          dados[key].push(value);
+        } else {
+          dados[key] = value;
+        }
+      });
+
+      console.log(dados);
+      document.getElementById("resultado").textContent = JSON.stringify(dados, null, 2);
+
+      alert("Formulário enviado com sucesso!");
+    }
+  </script>
+</body>
+</html>
+ 
